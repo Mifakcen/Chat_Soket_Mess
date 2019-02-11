@@ -65,7 +65,6 @@ public class ClientConnection implements Runnable {
                     if(msg.getMessText().startsWith("/auth_ok")){
                         String[] elements = msg.getMessText().split(" ");
                         nick = elements[1];
-                        this.chatController.setNickLabel(nick);
                         thread=new Thread(new mess());
                         thread.start();
                     } else if(msg.getMessText().startsWith("/auth_fail ")){
@@ -107,18 +106,8 @@ public class ClientConnection implements Runnable {
     private void login(){
         sendMessage(new Message("/auth " + ClientConnection.login + " " + ClientConnection.pass));
     }
-
-//    public  static  void logout(){
-//        nick = null;
-//
-//        sendMessage(new Message("/delete"));
-//    }
-//
-//    public static void delete(){
-//        nick = null;
-//        sendMessage(new Message("/delete"));
-//    }
 }
+
 //Поток для обмена сообщениями с сервером
 class mess implements Runnable {
     Scanner scanner = new Scanner(System.in);

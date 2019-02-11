@@ -10,6 +10,7 @@ public interface IAuthService {
     void deleteByLogin(String login);
     String getNicByLoginPass(String login,String pass);
     void addMessGlobChat(String mess,String nick);
+
     ArrayList<String> getTextGlobChat();
 
 }

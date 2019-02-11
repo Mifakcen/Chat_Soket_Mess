@@ -56,7 +56,6 @@ public class Server {
             c.sendMessage(msg);
         }
     }
-
     //сообщение одному или нескольким пользователям
     public synchronized void broadcast(Message msg,String...nicks){
         int countCurrent = 0;
@@ -73,7 +72,6 @@ public class Server {
             }
         }
     }
-
     //Проверяемм есть ли человек с введенным ником в базе
     public synchronized boolean isNickBusy(String nick){
         for (ClientHandler c:clients){
@@ -83,12 +81,10 @@ public class Server {
         }
         return false;
     }
-
     //Добаляем пользователя в список
     public synchronized void subscribe(ClientHandler client){
         clients.add(client);
     }
-
     //Удаляем пользователя из списка
     public synchronized void ubsubscrine(ClientHandler client){
         clients.remove(client);
@@ -98,9 +94,9 @@ public class Server {
         return this.authService;
     }
 
+    //Отправка списка всех сообщений за текущую дату
     public void broadcastMessList(){
         Message sb = new Message(("/user_list"));
-
         ArrayList<String> Mess = this.getAuthService().getTextGlobChat();
         for (String m : Mess) {
             sb.setMessText(sb.getMessText() + m + "\n");
@@ -109,25 +105,7 @@ public class Server {
             client.sendMessage(sb);
         }
     }
-    //Отправить список всех пользователей
-    public void broadcastUserList(){
-        Message sb = new Message(("/user_list"));
-        ArrayList<String> logins = this.getAuthService().getUserList();
-        for (ClientHandler client: clients){
-            sb.setMessText(sb.getMessText() +  " " + client.getName()+":on");
-            logins.remove(client.getName());
-        }
-        for (String login: logins){
-            sb.setMessText(sb.getMessText() +" " + login + ":off");
-        }
-         sb.setMessText(sb.getMessText() + "\n");
-
-
-        for (ClientHandler client: clients){
-            client.sendMessage(sb);
-        }
-    }
-    public void UserList(ClientHandler clientHandler){
+    private Message message(){
         Message sb = new Message(("/user_list"));
         ArrayList<String> logins = this.getAuthService().getUserList();
         for (ClientHandler client: clients){
@@ -138,11 +116,20 @@ public class Server {
             sb.setMessText(sb.getMessText() +" " + login + ":off");
         }
         sb.setMessText(sb.getMessText() + "\n");
+        return sb;
 
-
-
+    }//создает список пользователей сервера
+    //Отправить список всех пользователей
+    public void broadcastUserList(){
+        Message sb  = message();
+        for (ClientHandler client: clients){
+            client.sendMessage(sb);
+        }
+    }
+    //отправляем список пользователй только тому кто запросил команду
+    public void UserList(ClientHandler clientHandler){
+        Message sb = message();
         clientHandler.sendMessage(sb);
-
 
     }
 }

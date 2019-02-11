@@ -34,9 +34,7 @@ public class ClientHandler {
                         System.out.println("<-Клиент: " + str);
                         if (str.getMessText().startsWith("/auth ")) {
                             String[] elements = str.getMessText().split(" ");
-
                             if (elements.length == 3) {
-
                                 String nick = server.getAuthService().getNicByLoginPass(elements[1], elements[2]);
                                 if (nick != null) {
                                     if (!server.isNickBusy(nick)) {
@@ -55,7 +53,6 @@ public class ClientHandler {
                             }
                         } else if (str.getMessText().startsWith("/register ")) {
                             String[] elements = str.getMessText().split(" ");
-
                             if (elements.length == 3) {
                                 String nick = server.getAuthService().addLoginPass(elements[1], elements[2]);
 
@@ -80,13 +77,13 @@ public class ClientHandler {
                         System.out.println("<-Клиент " + name + " : " + str);
                         server.getAuthService().addMessGlobChat(str.getMessText(),name);
                         if(str.getMessText().startsWith("/user_list")){
-
                             server.UserList(this);
-                            server.broadcastMessList();
+                            //server.broadcastMessList();
                             continue;
                         }
                         if (str.getMessText().startsWith("/commands" )){
                             sendMessage(new Message("Commands : \n" +
+                                    "/user_list"+
                                     "/end \n"+
                                     "/delete\n"+
                                     "/w 'nic' 'mess' \n"));
@@ -139,7 +136,6 @@ public class ClientHandler {
             }
         }
     }
-
     //Отправка сообщений клиенту
     public void sendMessage(Message message) {
         try {

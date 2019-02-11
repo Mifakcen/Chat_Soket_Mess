@@ -48,7 +48,6 @@ public class Main {
         connection.setAutoCommit(true);
     }
 
-
     //Создаем много БООбов
     public static void batchEx() throws SQLException {
         connection.setAutoCommit(false);

@@ -15,8 +15,8 @@ public class BaseAuthService implements IAuthService {
 
     private void connect(String filename) throws SQLException, ClassNotFoundException {
         Class.forName("org.sqlite.JDBC");
-        String url = "jdbc:sqlite:C:/Users/Mifa/Documents/java_socket_chat/" + filename;
-//        String url = "jdbc:sqlite:C:/Users/Mifa/Documents/ChatMessage/" + filename;
+//        String url = "jdbc:sqlite:C:/Users/Mifa/Documents/java_socket_chat/" + filename;
+        String url = "jdbc:sqlite:C:/Users/Mifa/Documents/Chat_Message/" + filename;
         this.connection = DriverManager.getConnection(url);
         //Если таблицы нет то создаем эту таблицу
         if(this.connection!=null){
@@ -96,6 +96,7 @@ public class BaseAuthService implements IAuthService {
         return null;
     }
 
+    //Выборка сообщений за текущую дату
     @Override
     public ArrayList<String> getTextGlobChat() {
         ArrayList<String> MessText = new ArrayList<>();
@@ -159,7 +160,7 @@ public class BaseAuthService implements IAuthService {
         }
         return null;
     }
-
+    //Добавление сообщений глабального чата в базу
     @Override
     public void addMessGlobChat(String mess,String nick) {
         if (!mess.startsWith("/")) {
